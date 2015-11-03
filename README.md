@@ -1,6 +1,8 @@
 # Dodávatelia pre Operačný Program Informatizácia Spoločnosti
 
-| Dodávatelia                                                                                                                     | Názov projektu                                                 | Odovzdané | Zazmluvnené    | Vyčerpané      |
+Aktuálny obsah vychádza z verejne dostupných informácií. Pravdepodobne však obsahuje chyby. Cieľom je vypracovanie presného obrazu o dodávateľoch a ideálne aj subdodávateľoch pre jednotlivé projekty v rámci OPISu. Každá doplňujúca informácia by mala byť podložená odkazom na verejne dostupnú zmluvu alebo iný dokument.
+
+| Dodávatelia                                                                                                                     | Názov projektu                                                 | Odovzdanie | Zazmluvnené    | Vyčerpané      |
 |---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|-----------|----------------|----------------|
 | SAP Slovensko, GLOBESY, DWC Slovakia                                                                                            | 21110120042-ES MV na úseku ver.poriadku,bezpeč.osôb a majetku  | 8/2015    | €48,325,887.93 | €42,957,008.89 |
 | HP Slovakia, GlobalTel, Atos IT Solutions and Services                                                                          | 21110120013-Elektronická identifikačná karta                   | 11/2015   | €44,562,623.37 | €40,412,579.51 |
