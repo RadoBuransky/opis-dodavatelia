@@ -1,7 +1,8 @@
 # Dodávatelia pre Operačný Program Informatizácia Spoločnosti
 
-| DITEC, Aliter Technologies, Atos IT Solutions and Services, IBM Slovenesko                  | 21110120001-Elektronizácia služieb matriky                     |
+| Dodávatelia                                                                                 | Názov projektu                                                 |
 |---------------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| DITEC, Aliter Technologies, Atos IT Solutions and Services, IBM Slovenesko                  | 21110120001-Elektronizácia služieb matriky                     |
 | Gratex International, Asseco Central Europe                                                 | 21110120004-IS Identifikátora fyzických osôb                   |
 | DITEC                                                                                       | 21110120005-IS Registra fyzických osôb                         |
 | NESS Slovensko                                                                              | 21110120010-Informačný systém Registra adries                  |
