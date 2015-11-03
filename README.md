@@ -2,6 +2,15 @@
 
 Aktuálny obsah vychádza z verejne dostupných informácií. Pravdepodobne však obsahuje chyby. Cieľom je vypracovanie presného obrazu o dodávateľoch a ideálne aj subdodávateľoch pre jednotlivé projekty v rámci OPISu. Každá doplňujúca informácia by mala byť podložená odkazom na verejne dostupnú zmluvu alebo iný dokument.
 
+Užitočné odkazy:
+
+- [Centrálny register projektov](http://www.crp.gov.sk/)
+- [Centrálny register zmlúv](https://www.crz.gov.sk/)
+- [Úrad pre verejné obstarávanie](http://www2.uvo.gov.sk/evestnik/-/vestnik/searchResult)
+- [Čerpanie a Zoznamy](http://www.nsrr.sk/cerpanie/)
+- [Úrad podozrieva IT firmy z kartelu, spravil razie](http://ekonomika.sme.sk/c/7101559/urad-podozrieva-it-firmy-z-kartelu-spravil-razie.html)
+- 
+
 | Dodávatelia                                                                                                                     | Názov projektu                                                 | Odovzdanie | Zazmluvnené    | Vyčerpané      |
 |---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|-----------|----------------|----------------|
 | SAP Slovensko, GLOBESY, DWC Slovakia                                                                                            | 21110120042-ES MV na úseku ver.poriadku,bezpeč.osôb a majetku  | 8/2015    | €48,325,887.93 | €42,957,008.89 |
