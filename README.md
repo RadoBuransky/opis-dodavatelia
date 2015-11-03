@@ -205,3 +205,5 @@ Užitočné odkazy:
 |                                                                                                                                 | 21140120034-Zab. poradenských služieb k ukon. projektov OPIS   | 12/2015   | €1,209,395.74  | €0.00          |
 |                                                                                                                                 | 21140120036-Odborné hodnotenie projektov OPIS                  | 12/2015   | €16,059.05     | €0.00          |
 |                                                                                                                                 | 21140120038-Podpora riadenia pre RO OPIS 2015                  | 12/2015   | €80,000.00     | €0.00          |
+
+Obsah tabuľky vychádza z v tom čase aktuálneho zoznamu prijímateľov uverejneného [na stránke NRSR](http://www.nsrr.sk/cerpanie/).
