@@ -8,8 +8,7 @@ Užitočné odkazy:
 - [Centrálny register zmlúv](https://www.crz.gov.sk/)
 - [Úrad pre verejné obstarávanie](http://www2.uvo.gov.sk/evestnik/-/vestnik/searchResult)
 - [Čerpanie a Zoznamy](http://www.nsrr.sk/cerpanie/)
-- [Úrad podozrieva IT firmy z kartelu, spravil razie](http://ekonomika.sme.sk/c/7101559/urad-podozrieva-it-firmy-z-kartelu-spravil-razie.html)
-- 
+- [Úrad podozrieva IT firmy z kartelu, spravil razie](http://ekonomika.sme.sk/c/7101559/urad-podozrieva-it-firmy-z-kartelu-spravil-razie.html) 
 
 | Dodávatelia                                                                                                                     | Názov projektu                                                 | Odovzdanie | Zazmluvnené    | Vyčerpané      |
 |---------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|-----------|----------------|----------------|
