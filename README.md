@@ -2,6 +2,9 @@
 
 Aktuálny obsah vychádza z verejne dostupných informácií. Pravdepodobne však obsahuje chyby. Cieľom je vypracovanie presného obrazu o dodávateľoch a ideálne aj subdodávateľoch pre jednotlivé projekty v rámci OPISu. Každá doplňujúca informácia by mala byť podložená odkazom na verejne dostupnú zmluvu alebo iný dokument.
 
+Google Sheet tabuľka, kde môže každý pridať komentár:
+[Zoznam](https://docs.google.com/spreadsheets/d/1jk5A7iwA0YarantGYVOUsnwlhtyy3E2NNuBdFBu4YTQ/edit#gid=459710494)
+
 Užitočné odkazy:
 
 - [Centrálny register projektov](http://www.crp.gov.sk/)
