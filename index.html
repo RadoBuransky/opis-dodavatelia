@@ -26,16 +26,30 @@
       </section>
 
       <script>
-      $(document).ready(function() {
-        var processed = [];
-        $.unique($("article .suppliers li a")).each(function(index, element) {
-          if ($.inArray(element.text, processed) == -1) {
-            $("#allCompanies").append("<li>" + element.outerHTML + "</li>");
-            processed.push(element.text);
-          }
+        $(document).ready(function() {
+          var articles = [];
+          $("article.opis-project").each(function(index, article) {
+            articles.push(processArticle(article));
+          });
+
+          var processed = [];
+
+          $(articles).each(function(index, article) {
+            article.suppliers.each(function(index, supplier) {
+              if ($.inArray(supplier.text, processed) == -1) {
+                $("#allCompanies").append("<li>" + supplier.outerHTML + "</li>");
+                processed.push(supplier.text);
+              }
+            });
+          });
         });
-      });
-    </script>
+
+        function processArticle(article) {
+          var result = {};
+          result.suppliers = $(article).find(".suppliers li a");
+          return result;
+        }
+      </script>
 
       <article class="opis-project">
         <h2>Elektronické služby Ministerstva vnútra Slovenskej republiky na úseku verejného poriadku, bezpečnosti osôb a majetku</h2>
