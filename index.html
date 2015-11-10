@@ -20,6 +20,23 @@
     </section>
 
     <section class="main-content">
+
+      <section class="summary">
+        <ul id="allCompanies"></ul>
+      </section>
+
+      <script>
+      $(document).ready(function() {
+        var processed = [];
+        $.unique($("article .suppliers li a")).each(function(index, element) {
+          if ($.inArray(element.text, processed) == -1) {
+            $("#allCompanies").append("<li>" + element.outerHTML + "</li>");
+            processed.push(element.text);
+          }
+        });
+      });
+    </script>
+
       <article class="opis-project">
         <h2>Elektronické služby Ministerstva vnútra Slovenskej republiky na úseku verejného poriadku, bezpečnosti osôb a majetku</h2>
         <div class="project-info">
