@@ -1,3 +1,3 @@
 # Dodávatelia pre Operačný Program Informatizácia Spoločnosti.
 
-[https://github.com/RadoBuransky/opis-dodavatelia](https://github.com/RadoBuransky/opis-dodavatelia)
+[http://radoburansky.github.io/opis-dodavatelia/](http://radoburansky.github.io/opis-dodavatelia/)
