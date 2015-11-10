@@ -32,21 +32,45 @@
             articles.push(processArticle(article));
           });
 
-          var processed = [];
-
+          var suppliers = [];
           $(articles).each(function(index, article) {
-            article.suppliers.each(function(index, supplier) {
-              if ($.inArray(supplier.text, processed) == -1) {
-                $("#allCompanies").append("<li>" + supplier.outerHTML + "</li>");
-                processed.push(supplier.text);
+            article.suppliers.each(function(index, supplierElement) {
+              var supplier = null;
+              $.each(suppliers, function() {
+                if (this.name == supplierElement.text) {
+                  supplier = this;
+                  return false;
+                }
+              });
+
+              if (supplier == null) {
+                supplier = {};
+                supplier.name = supplierElement.text;
+                if (supplier.name == "") {
+                  console.log(article);
+                }
+                supplier.outerHTML = supplierElement.outerHTML;
+                supplier.totalProjectPrice = 0;
+                suppliers.push(supplier);
               }
+
+              supplier.totalProjectPrice = supplier.totalProjectPrice + article.totalPrice;
             });
+          });
+
+          suppliers.sort(function(a,b) {
+            return b.totalProjectPrice - a.totalProjectPrice;
+          });
+
+          $(suppliers).each(function(index, supplier) {
+            $("#allCompanies").append("<li>" + supplier.outerHTML + ": " + supplier.totalProjectPrice.toFixed(1) + " mil &#8364; </li>");
           });
         });
 
         function processArticle(article) {
           var result = {};
           result.suppliers = $(article).find(".suppliers li a");
+          result.totalPrice = parseFloat($(article).find(".totalPrice").text().replace(/,/g, '.'));
           return result;
         }
       </script>
@@ -506,7 +530,7 @@
       <article class="opis-project">
         <h2>Digitálna audiovízia</h2>
         <div class="project-info">
-          <div class="budget"><span class="label">Zazmluvnené prostriedky:</span>22 mil &#8364; (16,6 mil &#8364; EU + 5,4 mil &#8364; SR)</div>
+          <div class="budget"><span class="label">Zazmluvnené prostriedky:</span> <span class="totalPrice">22 mil</span> &#8364; (16,6 mil &#8364; EU + 5,4 mil &#8364; SR)</div>
           <div class="schedule"><span class="label">Realizácia: 5/2011 - 11/2015</span></div>
           <div class="itms"><span class="label">Projekt ITMS:</span>
             <a href="http://www.sfu.sk/filmy-projekty/digitalna-audiovizia">21120120006</a>
@@ -1011,8 +1035,8 @@
         </div>
         <h3>Dodávatelia</h3>
         <ul class="suppliers">
-          <li><a href="https://asseco.com/ce/"></a>Asseco Central Europe</li>
-          <li><a href="http://www.gordias.sk/"></a>Gordias</li>
+          <li><a href="https://asseco.com/ce/">Asseco Central Europe</a></li>
+          <li><a href="http://www.gordias.sk/">Gordias</a></li>
         </ul>
         <h3>Zmluvy</h3>
         <ul class="contracts">
@@ -1141,7 +1165,7 @@
         <h3>Dodávatelia</h3>
         <ul class="suppliers">
           <li><a href="http://www.gratex.sk/">Gratex International</a></li>
-          <li><a href="https://asseco.com/ce/"></a>Asseco Central Europe</li>
+          <li><a href="https://asseco.com/ce/">Asseco Central Europe</a></li>
         </ul>
       </article>
 
@@ -1156,7 +1180,7 @@
         </div>
         <h3>Dodávatelia</h3>
         <ul class="suppliers">
-          <li><a href="https://asseco.com/ce/"></a>Asseco Central Europe</li>
+          <li><a href="https://asseco.com/ce/">Asseco Central Europe</a></li>
         </ul>
         <h3>Zmluvy</h3>
         <ul class="contracts">
@@ -1195,7 +1219,6 @@
         <h3>Dodávatelia</h3>
         <ul class="suppliers">
           <li><a href="http://www.dwcslovakia.sk/">DWC Slovakia</a></li>
-          <li><a href=""></a></li>
         </ul>
         <h3>Zmluvy</h3>
         <ul class="contracts">
