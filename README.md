@@ -1,5 +1,7 @@
 # Dodávatelia pre Operačný Program Informatizácia Spoločnosti
 
+[http://radoburansky.github.io/opis-dodavatelia/](http://radoburansky.github.io/opis-dodavatelia/)
+
 Aktuálny obsah vychádza z verejne dostupných informácií. Pravdepodobne však obsahuje chyby. Cieľom je vypracovanie presného obrazu o dodávateľoch a ideálne aj subdodávateľoch pre jednotlivé projekty v rámci OPISu. Každá doplňujúca informácia by mala byť podložená odkazom na verejne dostupnú zmluvu alebo iný dokument.
 
 Google Sheet tabuľka, kde môže každý pridať komentár:
