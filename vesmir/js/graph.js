@@ -59,7 +59,8 @@ $(function(){
             .call(force.drag);
 
         node.append("circle")
-            .attr("r", nodeRAttr);
+            .attr("r", nodeRAttr)
+            .attr("fill", nodeFillAttr);
 
         node.append("text")
             .attr("dx", 20)
@@ -89,6 +90,17 @@ $(function(){
         }
 
         return 4.5;
+    }
+
+    function nodeFillAttr(n, i) {
+        switch (n.type) {
+            case TYPE_OPIS:
+                return fill(TYPE_OPIS);
+            case TYPE_PROJECT:
+                return fill(TYPE_PROJECT);
+        }
+
+        return fill("");
     }
 
     function onTick() {
