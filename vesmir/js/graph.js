@@ -62,13 +62,20 @@ $(function(){
             .attr("class", "node")
             .call(force.drag);
 
-        node.append("circle")
+        var circle = node.append("circle")
             .attr("r", nodeRAttr)
-            .attr("fill", nodeFillAttr);
+            .attr("fill", nodeFillAttr)
+            .on("mouseover", function(d){
+                d3.select(this.parentNode).select("text").style({display: "block"});
+            })
+            .on("mouseout", function(d){
+                d3.select(this.parentNode).select("text").style({display: "none"});
+            });
 
         node.append("text")
             .attr("dx", 20)
             .attr("dy", ".35em")
+            .style("display", "none")
             .text(nodeText);
 
         force.start();
