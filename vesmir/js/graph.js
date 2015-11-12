@@ -1,4 +1,5 @@
 var TYPE_OPIS = "opis";
+var TYPE_PROJECT = "project";
 
 $(function(){
     var $container = $('#container'),
@@ -29,45 +30,20 @@ $(function(){
         itms: "123",
         name: "aaa"
     };
+
     nodes.push(opisNode);
 
-    //
-//    d3.json("js/projects.json", function(error, json) {
-//        if (error) return console.warn(error);
-//
-//        force
-//          .nodes(json.nodes)
-//          .links(json.links)
-//          .start();
-//
-//        var link = svg.selectAll(".link")
-//            .data(json.links)
-//            .enter().append("line")
-//            .attr("class", "link");
-//
-//        var node = svg.selectAll(".node")
-//            .data(json.nodes)
-//            .enter().append("g")
-//            .attr("class", "node")
-//            .call(force.drag);
-//
-//        node.append("circle")
-//            .attr("r", 4.5);
-//
-//        node.append("text")
-//            .attr("dx", 12)
-//            .attr("dy", ".35em")
-//            .text(function(project) { return project.itms + ": " + project.name });
-//
-//        force.on("tick", function() {
-//            link.attr("x1", function(d) { return d.source.x; })
-//                .attr("y1", function(d) { return d.source.y; })
-//                .attr("x2", function(d) { return d.target.x; })
-//                .attr("y2", function(d) { return d.target.y; });
-//
-//            node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-//        });
-//    });
+    d3.json("js/projects.json", function(error, json) {
+        if (error) return console.warn(error);
+
+        // Add type to all nodes
+        $.map(json.nodes, function(val, i) {
+            val.type = TYPE_PROJECT;
+        });
+
+        nodes.push.apply(nodes, json.nodes);
+        restart();
+    });
 
     var node = svg.selectAll(".node"),
         link = svg.selectAll(".link");
@@ -95,9 +71,10 @@ $(function(){
 
     function nodeText(n) {
         switch (n.type) {
-            case TYPE_OPIS :
+            case TYPE_OPIS:
                 return "OPIS";
-                break;
+            case TYPE_PROJECT:
+                return n.itms;
         }
 
         return "";
@@ -105,11 +82,11 @@ $(function(){
 
     function nodeRAttr(n) {
         switch (n.type) {
-            case TYPE_OPIS :
+            case TYPE_OPIS:
                 return 16;
-                break;
+            case TYPE_PROJECT:
+                return 8;
         }
-
 
         return 4.5;
     }
@@ -123,5 +100,5 @@ $(function(){
         node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     }
 
-    restart();
+    //restart();
 });
