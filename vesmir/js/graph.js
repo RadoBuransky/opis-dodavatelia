@@ -6,7 +6,7 @@ $(function(){
         width = $container.width(),
         height = $container.height();
 
-    var fill = d3.scale.category20();
+    var fill = d3.scale.category10();
 
     var svg = d3.select("#container").append("svg")
         .attr("width", '100%')
@@ -23,12 +23,12 @@ $(function(){
         .charge(-300)
         .gravity(0.1)
         .nodes(nodes)
+        .links(links)
         .on("tick", onTick);
 
     var opisNode = {
-        type: TYPE_OPIS,
-        itms: "123",
-        name: "aaa"
+        id: TYPE_OPIS,
+        type: TYPE_OPIS
     };
 
     nodes.push(opisNode);
@@ -39,6 +39,10 @@ $(function(){
         // Add type to all nodes
         $.map(json.nodes, function(val, i) {
             val.type = TYPE_PROJECT;
+        });
+
+        $.each(json.nodes, function(i, val) {
+            links.push({source: 0, target: i + 1});
         });
 
         nodes.push.apply(nodes, json.nodes);
@@ -75,7 +79,7 @@ $(function(){
             case TYPE_OPIS:
                 return "OPIS";
             case TYPE_PROJECT:
-                return n.itms;
+                return n.id;
         }
 
         return "";

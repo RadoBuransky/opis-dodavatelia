@@ -1,6 +1,6 @@
 {
   "nodes" : [
-    { "itms": "21110120042", "name": "Elektronické služby Ministerstva vnútra Slovenskej republiky na úseku verejného poriadku, bezpečnosti osôb a majetku", "link": "http://www.informatizacia.sk/vdok_simple-narodny-projekt--elektronicke-sluzby-mv-sr-na-useku-verejneho-poriadku/609s15965c" },
-    { "itms": "21110120013", "name": "Elektronická identifikačná karta", "link": "http://www.informatizacia.sk/vdok_simple-narodny-projekt--elektronicka-identifikacna-karta/609s6180c" }
+    { "id": "21110120042", "name": "Elektronické služby Ministerstva vnútra Slovenskej republiky na úseku verejného poriadku, bezpečnosti osôb a majetku", "link": "http://www.informatizacia.sk/vdok_simple-narodny-projekt--elektronicke-sluzby-mv-sr-na-useku-verejneho-poriadku/609s15965c" },
+    { "id": "21110120013", "name": "Elektronická identifikačná karta", "link": "http://www.informatizacia.sk/vdok_simple-narodny-projekt--elektronicka-identifikacna-karta/609s6180c" }
   ]
 }
