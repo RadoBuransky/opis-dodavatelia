@@ -1,11 +1,15 @@
-function Spreadsheet() {
+// Loads data from Google spreadsheet.
+function Spreadsheet(onLoaded) {
     var SPREADSHEET_KEY = "1TAVF5meqnFLqwNlttUj1cLEP4WmLzpO_DWyYCWudctM";
 
     function loadSheets(spreadsheet, documentKey) {
         function load3() { return loadSheet(spreadsheet, documentKey, 3); }
         function load2(data, textStatus, jqXHR) { return loadSheet(spreadsheet, documentKey, 2); }
         function load1(data, textStatus, jqXHR) { return loadSheet(spreadsheet, documentKey, 1); }
-        function ready(data, textStatus, jqXHR) { console.log(spreadsheet); }
+        function ready(data, textStatus, jqXHR) {
+            processLoadedData(spreadsheet);
+            onLoaded(spreadsheet);
+        }
 
         load3()
             .then(load2)
@@ -13,12 +17,32 @@ function Spreadsheet() {
             .then(ready);
     }
 
+    function processLoadedData(spreadsheet) {
+        $.each(spreadsheet.contracts, function(i, c) {
+            c.companies = [];
+            if (c.company1Id != null)
+                c.companies.push(c.company1Id);
+            if (c.company2Id != null)
+                c.companies.push(c.company2Id);
+            if (c.company3Id != null)
+                c.companies.push(c.company3Id);
+            if (c.company4Id != null)
+                c.companies.push(c.company4Id);
+            if (c.company5Id != null)
+                c.companies.push(c.company5Id);
+
+            delete c.company1Id;
+            delete c.company2Id;
+            delete c.company3Id;
+            delete c.company4Id;
+            delete c.company5Id;
+        });
+    }
+
     function loadSheet(spreadsheet, documentKey, sheetIndex) {
         return getSheet(documentKey, sheetIndex, function(response) {
             var COLUMN_INDEX_NAME = [];
-
-            var data = spreadsheet[response.feed.title.$t] = {};
-                        console.log(sheetIndex);
+            var data = spreadsheet[response.feed.title.$t] = [];
 
             $.each(response.feed.entry, function(i, e) {
                 if (e.gs$cell.row == 1) {
@@ -32,12 +56,6 @@ function Spreadsheet() {
                     data[index][COLUMN_INDEX_NAME[e.gs$cell.col]] = e.content.$t;
                 }
             });
-        });
-    }
-
-    function loadContracts(documentKey) {
-        loadSheet(documentKey, 1, function(response) {
-            //console.log(response);
         });
     }
 
