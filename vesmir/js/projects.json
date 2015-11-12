@@ -1,0 +1,5 @@
+{ "nodes" : [
+    { "itms": "123", "name": "aaa", "link": "http://www.google.com/" },
+    { "itms": "666", "name": "XY", "link": "http://www.asbis.sk/" }
+  ]
+}

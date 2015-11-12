@@ -1,5 +1,5 @@
 $(function(){
-    var $container = $('.container'),
+    var $container = $('#container'),
         width = $container.width(),
         height = $container.height();
 
@@ -13,7 +13,7 @@ $(function(){
         .gravity(0.1)
         .on("tick", tick);
 
-    var svg = d3.select(".container").append("svg")
+    var svg = d3.select("#container").append("svg")
         .attr("width", '100%')
         .attr("height", '100%')
         .attr('viewBox','0 0 '+width+' '+height)
@@ -28,14 +28,21 @@ $(function(){
         node = svg.selectAll(".node"),
         link = svg.selectAll(".link");
 
-    n1 = {x: 10, y: 10};
-    n2 = {x: 10, y: 20};
-    n3 = {x: 30, y: 20};
-    nodes.push(n1, n2, n3);
-    links.push({source: n1, target: n2});
-    links.push({source: n1, target: n3});
+//    n1 = {x: 10, y: 10, text: "aaa"};
+//    n2 = {x: 10, y: 20};
+//    n3 = {x: 30, y: 20};
+//    nodes.push(n1, n2, n3);
+//    links.push({source: n1, target: n2});
+//    links.push({source: n1, target: n3});
 
     restart();
+
+    d3.json("js/projects.json", function(error, json) {
+        if (error) return console.warn(error);
+//        force
+//            .nodes(json.nodes)
+//            .start();
+    });
 
     function tick() {
       link.attr("x1", function(d) { return d.source.x; })
