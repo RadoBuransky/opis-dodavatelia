@@ -65,20 +65,39 @@ $(function(){
         var circle = node.append("circle")
             .attr("r", nodeRAttr)
             .attr("fill", nodeFillAttr)
-            .on("mouseover", function(d){
-                d3.select(this.parentNode).select("text").style({display: "block"});
-            })
-            .on("mouseout", function(d){
-                d3.select(this.parentNode).select("text").style({display: "none"});
-            });
+            .on("mouseover", nodeMouseOver)
+            .on("mouseout", nodeMouseOut);
 
         node.append("text")
             .attr("dx", 20)
             .attr("dy", ".35em")
-            .style("display", "none")
+            .style("display", nodeDisplayStyle)
             .text(nodeText);
 
         force.start();
+    }
+
+    function nodeDisplayStyle(n) {
+        switch (n.type) {
+            case TYPE_OPIS:
+                return "block";
+        }
+
+        return "none";
+    }
+
+    function nodeMouseOut(n) {
+        switch (n.type) {
+            case TYPE_PROJECT:
+                d3.select(this.parentNode).select("text").style({display: "none"});
+        }
+    }
+
+    function nodeMouseOver(n) {
+        switch (n.type) {
+            case TYPE_PROJECT:
+                d3.select(this.parentNode).select("text").style({display: "block"});
+        }
     }
 
     function nodeText(n) {
@@ -86,7 +105,7 @@ $(function(){
             case TYPE_OPIS:
                 return "OPIS";
             case TYPE_PROJECT:
-                return n.id;
+                return n.name;
         }
 
         return "";
