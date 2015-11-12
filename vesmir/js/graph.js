@@ -17,14 +17,21 @@ $(function(){
         .attr('viewBox','0 0 '+width+' '+height)
         .attr('preserveAspectRatio','xMinYMin');
 
+    var rect = svg.append("rect")
+        .attr("x", "0")
+        .attr("y", "0")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", "black");
+
     var nodes = [],
         links = [];
 
     var force = d3.layout.force()
         .size([width, height])
-        .linkDistance(100)
-        .charge(-300)
-        .gravity(0.1)
+        .linkDistance(30)
+        .charge(-5000)
+        .gravity(0.5)
         .nodes(nodes)
         .links(links)
         .on("tick", onTick);
@@ -216,6 +223,4 @@ $(function(){
 
         node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     }
-
-    //restart();
 });
