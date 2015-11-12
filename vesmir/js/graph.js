@@ -2,6 +2,7 @@ var TYPE_OPIS = "opis";
 var TYPE_PROJECT = "project";
 var TYPE_COMPANY = "company";
 var TYPE_CONTRACT = "contract";
+var TYPE_INSTITUTION = "institution";
 
 $(function(){
     var $container = $('#container'),
@@ -39,14 +40,22 @@ $(function(){
     new Spreadsheet(function(spreadsheet) {
         loadProjects(spreadsheet.projects);
         loadCompanies(spreadsheet.companies);
+        loadInstitutions(spreadsheet.institutions);
         loadContracts(spreadsheet.contracts);
 
         restart();
     });
 
-    function loadContracts(contracts) {
-        console.log(contracts);
+    function loadInstitutions(institutions) {
+        //Add type to all nodes
+        $.map(institutions, function(val, i) {
+            val.type = TYPE_INSTITUTION;
+        });
 
+        nodes.push.apply(nodes, institutions);
+    }
+
+    function loadContracts(contracts) {
         //Add type to all nodes
         $.map(contracts, function(val, i) {
             val.type = TYPE_CONTRACT;
@@ -67,6 +76,13 @@ $(function(){
             $.each(projects, function(j, project) {
                 var projectIndex = nodes.indexOf(project);
                 links.push({source: contractIndex, target: projectIndex});
+            });
+
+            // Connect contracts and institutions
+            var institutions = $.grep(nodes, function(n) { return (n.type === TYPE_INSTITUTION) && (val.institutionId.indexOf(n.id) > -1) } );
+            $.each(institutions, function(j, institution) {
+                var institutionIndex = nodes.indexOf(institution);
+                links.push({source: contractIndex, target: institutionIndex});
             });
         });
     }
@@ -141,6 +157,7 @@ $(function(){
             case TYPE_PROJECT:
             case TYPE_COMPANY:
             case TYPE_CONTRACT:
+            case TYPE_INSTITUTION:
                 d3.select(this.parentNode).select("text").style({display: "none"});
         }
     }
@@ -150,6 +167,7 @@ $(function(){
             case TYPE_PROJECT:
             case TYPE_COMPANY:
             case TYPE_CONTRACT:
+            case TYPE_INSTITUTION:
                 d3.select(this.parentNode).select("text").style({display: "block"});
         }
     }
@@ -170,6 +188,8 @@ $(function(){
                 return n.name;
             case TYPE_CONTRACT:
                 return formatter.format(n.priceEur);
+            case TYPE_INSTITUTION:
+                return n.name;
         }
 
         return "";

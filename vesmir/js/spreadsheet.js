@@ -3,18 +3,17 @@ function Spreadsheet(onLoaded) {
     var SPREADSHEET_KEY = "1TAVF5meqnFLqwNlttUj1cLEP4WmLzpO_DWyYCWudctM";
 
     function loadSheets(spreadsheet, documentKey) {
-        function load3() { return loadSheet(spreadsheet, documentKey, 3); }
-        function load2(data, textStatus, jqXHR) { return loadSheet(spreadsheet, documentKey, 2); }
-        function load1(data, textStatus, jqXHR) { return loadSheet(spreadsheet, documentKey, 1); }
-        function ready(data, textStatus, jqXHR) {
-            processLoadedData(spreadsheet);
-            onLoaded(spreadsheet);
+        var SHEET_COUNT = 4;
+        var loadedSheetCount = 0;
+        for (i = 1; i <= SHEET_COUNT; i++) {
+            loadSheet(spreadsheet, documentKey, i).then(function() {
+                loadedSheetCount += 1;
+                if (loadedSheetCount == SHEET_COUNT) {
+                    processLoadedData(spreadsheet);
+                    onLoaded(spreadsheet);
+                }
+            })
         }
-
-        load3()
-            .then(load2)
-            .then(load1)
-            .then(ready);
     }
 
     function processLoadedData(spreadsheet) {
