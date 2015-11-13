@@ -17,8 +17,13 @@ ModelController.prototype.showInfo = function(node, model) {
             ModelController.prototype.contractToView(node, model);
             break;
         case Model.prototype.TYPE_INSTITUTION:
+            ModelController.prototype.institutionToView(node);
             break;
     }
+}
+
+ModelController.prototype.institutionToView = function(institution) {
+    $("#info-institution-name h2").text(institution.name);
 }
 
 ModelController.prototype.companyToView = function(company) {
