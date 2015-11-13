@@ -15,13 +15,11 @@ $(function(){
         .attr("width", '100%')
         .attr("height", '100%')
         .attr('viewBox','0 0 '+width+' '+height)
-        .attr('preserveAspectRatio','xMinYMin');
+        .style("background-color", "black");
 
     var rect = svg.append("rect")
-        .attr("x", "0")
-        .attr("y", "0")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("width", "100%")
+        .attr("height", "100%")
         .attr("fill", "black");
 
     var nodes = [],
@@ -205,10 +203,10 @@ $(function(){
     function nodeRAttr(n) {
         switch (n.type) {
             case TYPE_OPIS:
-                return 16;
+                return 40;
         }
 
-        return 8;
+        return 20;
     }
 
     function nodeFillAttr(n, i) {

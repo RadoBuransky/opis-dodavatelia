@@ -8,7 +8,6 @@ html, body {
 
 .container-fluid {
     height:100%;
-    padding-left: 0;
 }
 
 .container-fluid .row {
@@ -17,16 +16,17 @@ html, body {
 
 #vesmir-container {
     height:100%;
+    padding: 0;
+}
+
+#info-container {
+    height:100%;
+    background-color: #222;
+    color: #CCC;
 }
 
 text {
     fill: white;
-}
-
-.cursor {
-    fill: none;
-    stroke: brown;
-    pointer-events: none;
 }
 
 .link {
