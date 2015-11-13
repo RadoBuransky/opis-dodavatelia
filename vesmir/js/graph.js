@@ -119,7 +119,7 @@ function Graph(containerId) {
 
         var circle = node.append("circle")
             .on("click", function(node) {
-                modelController.    showInfo(node);
+                modelController.showInfo(node, model);
             });
 
         node.append("text")
@@ -132,9 +132,6 @@ function Graph(containerId) {
         link = svg.selectAll(".link");
 
         force.start();
-    }
-
-    function showInfo(node) {
     }
 
     function nodeClass(n) {

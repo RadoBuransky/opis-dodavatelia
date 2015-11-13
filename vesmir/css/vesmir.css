@@ -27,6 +27,7 @@ html, body {
 
 .info-content {
     color: white;
+    padding: 0;
 }
 
 .info-content header {
