@@ -5,7 +5,8 @@ function Graph(containerId) {
         link = [],
         svg = {},
         force = {},
-        model = {};
+        model = new Model(),
+        modelController = new ModelController();
 
     init();
 
@@ -37,7 +38,6 @@ function Graph(containerId) {
             .on("tick", onTick);
 
         // Load model from spreadsheet and restart graph
-        model = new Model();
         model.loadFromSpreadsheet(function(model) {
             modelToGraph(model);
         });
@@ -117,7 +117,10 @@ function Graph(containerId) {
             .attr("y", 0)
             .call(force.drag);
 
-        var circle = node.append("circle");
+        var circle = node.append("circle")
+            .on("click", function(node) {
+                modelController.    showInfo(node);
+            });
 
         node.append("text")
             .attr("dx", "-35")
@@ -129,6 +132,9 @@ function Graph(containerId) {
         link = svg.selectAll(".link");
 
         force.start();
+    }
+
+    function showInfo(node) {
     }
 
     function nodeClass(n) {
