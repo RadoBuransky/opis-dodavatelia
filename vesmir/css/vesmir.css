@@ -53,6 +53,10 @@ html, body {
     background-color: #1f77b4;
 }
 
+#info-company-name {
+    background-color: #d62728;
+}
+
 text {
     fill: white;
 }

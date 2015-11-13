@@ -11,6 +11,7 @@ ModelController.prototype.showInfo = function(node, model) {
             ModelController.prototype.projectToView(node);
             break;
         case Model.prototype.TYPE_COMPANY:
+            ModelController.prototype.companyToView(node);
             break;
         case Model.prototype.TYPE_CONTRACT:
             ModelController.prototype.contractToView(node, model);
@@ -20,8 +21,11 @@ ModelController.prototype.showInfo = function(node, model) {
     }
 }
 
+ModelController.prototype.companyToView = function(company) {
+    $("#info-company-name h2").text(company.name);
+}
+
 ModelController.prototype.contractToView = function(contract, model) {
-    console.log(contract);
     var parent = $("#info-contract");
     $("h2", parent).text(contract.name);
     $("#info-contract-price", parent).text(ModelController.prototype.priceEurToView(contract.priceEur));
