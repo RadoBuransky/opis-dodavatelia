@@ -4,8 +4,10 @@ function Graph(containerId) {
         links = [],
         link = [],
         svg = {},
-        force = {}
+        force = {},
         model = {};
+
+    init();
 
     function init() {
         var $container = $(containerId),
@@ -41,22 +43,17 @@ function Graph(containerId) {
         });
     }
 
-    init();
-
     function modelToGraph(model) {
-        nodes = [];
-        links = [];
-
         var opisNode = {
             id: model.TYPE_OPIS,
             type: model.TYPE_OPIS
         };
         nodes.push(opisNode);
 
-        //projectsToGraph(model.projects);
-//        companiesToGraph(model.companies);
-//        institutionsToGraph(model.institutions);
-//        contractsToGraph(model.contracts);
+        projectsToGraph(model.projects);
+        companiesToGraph(model.companies);
+        institutionsToGraph(model.institutions);
+        contractsToGraph(model.contracts);
 
         node = svg.selectAll(".node");
         link = svg.selectAll(".link");
@@ -119,8 +116,6 @@ function Graph(containerId) {
             .attr("x", 0)
             .attr("y", 0)
             .call(force.drag);
-
-        console.log(nodes);
 
         var circle = node.append("circle");
 
