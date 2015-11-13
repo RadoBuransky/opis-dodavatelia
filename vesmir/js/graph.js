@@ -116,12 +116,28 @@ function Graph(containerId) {
             .attr("class", nodeClass)
             .attr("x", 0)
             .attr("y", 0)
+            .attr("id", nodeId)
             .call(force.drag)
             .on("click", function(node) {
+                $("#" + node.id + " text").show();
                 modelController.showInfo(node, model);
+
+                $.each(links, function(i, val) {
+                    var other = null;
+                    if (val.source.index == node.index)
+                        other = val.target;
+                    else
+                        if (val.target.index == node.index)
+                            other = val.source;
+
+                    if (other != null) {
+                        $("#" + other.id + " text").show();
+                    }
+                });
             });
 
-        var circle = node.append("circle");
+        var circle = node.append("circle")
+            .attr("r", view.SELECTED_R);
 
         node.append("text")
             .attr("dy", ".35em")
@@ -132,6 +148,10 @@ function Graph(containerId) {
         link = svg.selectAll(".link");
 
         force.start();
+    }
+
+    function nodeId(n) {
+        return n.id;
     }
 
     function nodeClass(n) {
@@ -159,26 +179,6 @@ function Graph(containerId) {
         }
 
         return "node " + specific;
-    }
-
-    function nodeMouseOut(n) {
-        switch (n.type) {
-            case model.TYPE_PROJECT:
-            case model.TYPE_COMPANY:
-            case model.TYPE_CONTRACT:
-            case model.TYPE_INSTITUTION:
-                d3.select(this.parentNode).select("text").style({display: "none"});
-        }
-    }
-
-    function nodeMouseOver(n) {
-        switch (n.type) {
-            case model.TYPE_PROJECT:
-            case model.TYPE_COMPANY:
-            case model.TYPE_CONTRACT:
-            case model.TYPE_INSTITUTION:
-                d3.select(this.parentNode).select("text").style({display: "block"});
-        }
     }
 
     function nodeText(n) {

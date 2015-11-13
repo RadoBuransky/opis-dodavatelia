@@ -70,10 +70,6 @@ text {
     stroke: #999;
 }
 
-.node circle {
-    r: 30;
-}
-
 .node {
     cursor: pointer;
  }
