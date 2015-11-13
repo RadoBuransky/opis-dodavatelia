@@ -3,50 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Vesmír</title>
-    <style>
-        html, body {
-            margin:0;
-            padding:0;
-            border: 0;
-            width:100%;
-            height:100%;
-            overflow: hidden;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        #container {
-            width:100%;
-            height:100%;
-        }
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/vesmir.css" type="text/css">
 
-        text {
-            fill: white;
-        }
-
-        .node {
-            fill: #000;
-        }
-
-        .cursor {
-            fill: none;
-            stroke: brown;
-            pointer-events: none;
-        }
-
-        .link {
-            stroke: #999;
-        }
-
-    </style>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="js/spreadsheet.js"></script>
+    <script src="js/graph.js"></script>
 </head>
 
 <body>
-    <div id="container"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="vesmir-container" class="col-md-10"></div>
+            <div id="info-container" class="col-md-2">
+                <h1>Vesmír OPIS</h1>
+            </div>
+        </div>
+    </div>
 
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-
-    <script src="js/spreadsheet.js"></script>
-    <script src="js/graph.js"></script>
 </body>
 
 </html>

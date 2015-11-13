@@ -5,13 +5,13 @@ var TYPE_CONTRACT = "contract";
 var TYPE_INSTITUTION = "institution";
 
 $(function(){
-    var $container = $('#container'),
+    var $container = $('#vesmir-container'),
         width = $container.width(),
         height = $container.height();
 
     var fill = d3.scale.category10();
 
-    var svg = d3.select("#container").append("svg")
+    var svg = d3.select("#vesmir-container").append("svg")
         .attr("width", '100%')
         .attr("height", '100%')
         .attr('viewBox','0 0 '+width+' '+height)
