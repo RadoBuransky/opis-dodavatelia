@@ -1,0 +1,32 @@
+html, body {
+    margin:0;
+    padding:0;
+    border: 0;
+    width:100%;
+    height:100%;
+    overflow: hidden;
+}
+
+#container {
+    width:100%;
+    height:100%;
+}
+
+rect {
+    fill: none;
+    pointer-events: all;
+}
+
+.node {
+    fill: #000;
+}
+
+.cursor {
+    fill: none;
+    stroke: brown;
+    pointer-events: none;
+}
+
+.link {
+    stroke: #999;
+}
