@@ -2,6 +2,7 @@ var TYPE_OPIS = "opis";
 var TYPE_PROJECT = "project";
 var TYPE_COMPANY = "company";
 var TYPE_CONTRACT = "contract";
+var TYPE_INSTITUTION = "institution";
 
 $(function(){
     var $container = $('#container'),
@@ -16,14 +17,21 @@ $(function(){
         .attr('viewBox','0 0 '+width+' '+height)
         .attr('preserveAspectRatio','xMinYMin');
 
+    var rect = svg.append("rect")
+        .attr("x", "0")
+        .attr("y", "0")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", "black");
+
     var nodes = [],
         links = [];
 
     var force = d3.layout.force()
         .size([width, height])
-        .linkDistance(100)
-        .charge(-300)
-        .gravity(0.1)
+        .linkDistance(30)
+        .charge(-5000)
+        .gravity(0.5)
         .nodes(nodes)
         .links(links)
         .on("tick", onTick);
@@ -35,69 +43,79 @@ $(function(){
 
     nodes.push(opisNode);
 
-    // Load projects
-    d3.json("js/projects.json", function(error, json) {
-        if (error) return console.warn(error);
+    // Load data from spreadsheet
+    new Spreadsheet(function(spreadsheet) {
+        loadProjects(spreadsheet.projects);
+        loadCompanies(spreadsheet.companies);
+        loadInstitutions(spreadsheet.institutions);
+        loadContracts(spreadsheet.contracts);
 
-        // Add type to all nodes
-        $.map(json.nodes, function(val, i) {
-            val.type = TYPE_PROJECT;
-        });
-
-        $.each(json.nodes, function(i, val) {
-            links.push({source: 0, target: i + 1});
-        });
-
-        nodes.push.apply(nodes, json.nodes);
         restart();
     });
 
-    // Load companies
-    d3.json("js/companies.json", function(error, json) {
-        if (error) return console.warn(error);
-
-        // Add type to all nodes
-        $.map(json.companies, function(val, i) {
-            val.type = TYPE_COMPANY;
+    function loadInstitutions(institutions) {
+        //Add type to all nodes
+        $.map(institutions, function(val, i) {
+            val.type = TYPE_INSTITUTION;
         });
 
-        $.each(json.companies, function(i, val) {
-            //links.push({source: 0, target: i + 1});
-        });
+        nodes.push.apply(nodes, institutions);
+    }
 
-        nodes.push.apply(nodes, json.companies);
-        restart();
-    });
-
-    // Load contracts
-    d3.json("js/contracts.json", function(error, json) {
-        if (error) return console.warn(error);
-
-        // Add type to all nodes
-        $.map(json.contracts, function(val, i) {
+    function loadContracts(contracts) {
+        //Add type to all nodes
+        $.map(contracts, function(val, i) {
             val.type = TYPE_CONTRACT;
         });
 
-        $.each(json.contracts, function(i, val) {
+        $.each(contracts, function(i, val) {
             var contractIndex = nodes.push(val) - 1;
 
             // Connect contracts and suppliers
-            var suppliers = $.grep(nodes, function(n) { return (n.type === TYPE_COMPANY) && (val.suppliers.indexOf(n.id) > -1) } );
+            var suppliers = $.grep(nodes, function(n) { return (n.type === TYPE_COMPANY) && (val.companies.indexOf(n.id) > -1) } );
             $.each(suppliers, function(j, supplier) {
                 var supplierIndex = nodes.indexOf(supplier);
                 links.push({source: contractIndex, target: supplierIndex});
             });
 
             // Connect contracts and projects
-            var projects = $.grep(nodes, function(n) { return (n.type === TYPE_PROJECT) && (val.projects.indexOf(n.id) > -1) } );
+            var projects = $.grep(nodes, function(n) { return (n.type === TYPE_PROJECT) && (val.projectId == n.id) } );
             $.each(projects, function(j, project) {
                 var projectIndex = nodes.indexOf(project);
                 links.push({source: contractIndex, target: projectIndex});
             });
+
+            // Connect contracts and institutions
+            var institutions = $.grep(nodes, function(n) { return (n.type === TYPE_INSTITUTION) && (val.institutionId.indexOf(n.id) > -1) } );
+            $.each(institutions, function(j, institution) {
+                var institutionIndex = nodes.indexOf(institution);
+                links.push({source: contractIndex, target: institutionIndex});
+            });
+        });
+    }
+
+    function loadProjects(projects) {
+        // Add type to all nodes
+        $.map(projects, function(val, i) {
+            val.type = TYPE_PROJECT;
         });
 
-        restart();
-    });
+        nodes.push.apply(nodes, projects);
+
+        // Connect projects with the main OPIS node
+        $.each(projects, function(i, val) {
+            links.push({source: 0, target: i + 1});
+        });
+    }
+
+    function loadCompanies(companies) {
+        // Add type to all nodes
+        $.map(companies, function(val, i) {
+            val.type = TYPE_COMPANY;
+        });
+
+        nodes.push.apply(nodes, companies);
+    }
 
     var node = svg.selectAll(".node"),
         link = svg.selectAll(".link");
@@ -146,6 +164,7 @@ $(function(){
             case TYPE_PROJECT:
             case TYPE_COMPANY:
             case TYPE_CONTRACT:
+            case TYPE_INSTITUTION:
                 d3.select(this.parentNode).select("text").style({display: "none"});
         }
     }
@@ -155,6 +174,7 @@ $(function(){
             case TYPE_PROJECT:
             case TYPE_COMPANY:
             case TYPE_CONTRACT:
+            case TYPE_INSTITUTION:
                 d3.select(this.parentNode).select("text").style({display: "block"});
         }
     }
@@ -175,6 +195,8 @@ $(function(){
                 return n.name;
             case TYPE_CONTRACT:
                 return formatter.format(n.priceEur);
+            case TYPE_INSTITUTION:
+                return n.name;
         }
 
         return "";
@@ -201,6 +223,4 @@ $(function(){
 
         node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     }
-
-    //restart();
 });
