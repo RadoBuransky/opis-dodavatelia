@@ -15,6 +15,7 @@ html, body {
 }
 
 #vesmir-container {
+    font-size: 12px;
     height:100%;
     padding: 0;
 }
@@ -73,7 +74,7 @@ text {
     r: 30;
 }
 
-.node circle:hover {
+.node {
     cursor: pointer;
  }
 
@@ -105,4 +106,8 @@ text {
 
 .node-opis text {
     fill: black;
+}
+
+#options {
+    padding: 0;
 }

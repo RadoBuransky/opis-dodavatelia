@@ -12,6 +12,8 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <script src="js/view.js"></script>
     <script src="js/modelController.js"></script>
     <script src="js/model.js"></script>
     <script src="js/spreadsheet.js"></script>
@@ -85,6 +87,23 @@
                             <p>Štátna organizácia</p>
                         </header>
                     </div>
+                </div>
+                <div id="options" class="container-fluid">
+                    <h2>Možnosti zobrazenia</h2>
+                    <form>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="show-project" checked="checked">Projekty</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="show-contract" checked="checked">Zmluvy</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="show-company" checked="checked">Firmy</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="show-institution" checked="checked">Štátne organizácie</label>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

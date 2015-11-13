@@ -6,7 +6,8 @@ function Graph(containerId) {
         svg = {},
         force = {},
         model = new Model(),
-        modelController = new ModelController();
+        modelController = new ModelController(),
+        view = new View();
 
     init();
 
@@ -115,17 +116,16 @@ function Graph(containerId) {
             .attr("class", nodeClass)
             .attr("x", 0)
             .attr("y", 0)
-            .call(force.drag);
-
-        var circle = node.append("circle")
+            .call(force.drag)
             .on("click", function(node) {
                 modelController.showInfo(node, model);
             });
 
+        var circle = node.append("circle");
+
         node.append("text")
-            .attr("dx", "-35")
             .attr("dy", ".35em")
-            .style("display", nodeDisplayStyle)
+            .attr("text-anchor", "middle")
             .text(nodeText);
 
         node = svg.selectAll(".node"),
@@ -159,15 +159,6 @@ function Graph(containerId) {
         }
 
         return "node " + specific;
-    }
-
-    function nodeDisplayStyle(n) {
-        switch (n.type) {
-            case model.TYPE_OPIS:
-                return "block";
-        }
-
-        return "none";
     }
 
     function nodeMouseOut(n) {
