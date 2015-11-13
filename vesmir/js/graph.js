@@ -56,6 +56,26 @@ function Graph(containerId) {
         institutionsToGraph(model.institutions);
         contractsToGraph(model.contracts);
 
+        // Define adjacent function for all nodes
+        $.each(nodes, function(i, n) {
+            n.adjacent = function() {
+                var result = [];
+                $.each(links, function(i, val) {
+                    var other = null;
+                    if (val.source.index == n.index)
+                        other = val.target;
+                    else
+                        if (val.target.index == n.index)
+                            other = val.source;
+
+                    if (other != null)
+                        result.push(other);
+                });
+
+                return result;
+            };
+        })
+
         node = svg.selectAll(".node");
         link = svg.selectAll(".link");
 
@@ -119,21 +139,8 @@ function Graph(containerId) {
             .attr("id", nodeId)
             .call(force.drag)
             .on("click", function(node) {
-                $("#" + node.id + " text").show();
+                view.selectNode(node);
                 modelController.showInfo(node, model);
-
-                $.each(links, function(i, val) {
-                    var other = null;
-                    if (val.source.index == node.index)
-                        other = val.target;
-                    else
-                        if (val.target.index == node.index)
-                            other = val.source;
-
-                    if (other != null) {
-                        $("#" + other.id + " text").show();
-                    }
-                });
             });
 
         var circle = node.append("circle")
