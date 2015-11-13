@@ -25,6 +25,33 @@ html, body {
     color: #CCC;
 }
 
+.info-content {
+    color: white;
+}
+
+.info-content header {
+    padding: 20px;
+    margin: 20px 0 20px 0;
+}
+
+.info-content h2 {
+    padding: 0;
+    margin: 0;
+}
+
+.info-content p {
+    padding: 0;
+    margin: 0;
+}
+
+#info-project-name {
+    background-color: #9467bd;
+}
+
+#info-contract-name {
+    background-color: #1f77b4;
+}
+
 text {
     fill: white;
 }
@@ -36,6 +63,10 @@ text {
 .node circle {
     r: 30;
 }
+
+.node circle:hover {
+    cursor: pointer;
+ }
 
 .node-project circle {
     fill: #9467bd;

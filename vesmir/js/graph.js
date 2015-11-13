@@ -130,9 +130,9 @@ $(function(){
             .attr("y", 0)
             .call(force.drag);
 
-        var circle = node.append("circle")
-            .on("mouseover", nodeMouseOver)
-            .on("mouseout", nodeMouseOut);
+        var circle = node.append("circle");
+//            .on("mouseover", nodeMouseOver)
+//            .on("mouseout", nodeMouseOut);
 
         node.append("text")
             .attr("dx", "-35")
