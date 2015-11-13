@@ -1,122 +1,112 @@
-var TYPE_OPIS = "opis";
-var TYPE_PROJECT = "project";
-var TYPE_COMPANY = "company";
-var TYPE_CONTRACT = "contract";
-var TYPE_INSTITUTION = "institution";
-
-$(function(){
-    var $container = $('#vesmir-container'),
-        width = $container.width(),
-        height = $container.height();
-
-    var fill = d3.scale.category10();
-
-    var svg = d3.select("#vesmir-container").append("svg")
-        .attr("width", '100%')
-        .attr("height", '100%')
-        .attr('viewBox','0 0 '+width+' '+height)
-        .style("background-color", "black");
-
-    var rect = svg.append("rect")
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .attr("fill", "black");
-
+function Graph(containerId) {
     var nodes = [],
-        links = [];
+        links = [],
+        svg = {},
+        force = {}
+        model = {};
 
-    var force = d3.layout.force()
-        .size([width, height])
-        .linkDistance(30)
-        .charge(-5000)
-        .gravity(0.5)
-        .nodes(nodes)
-        .links(links)
-        .on("tick", onTick);
 
-    var opisNode = {
-        id: TYPE_OPIS,
-        type: TYPE_OPIS
-    };
+    function init() {
+        var $container = $(containerId),
+            width = $container.width(),
+            height = $container.height();
 
-    nodes.push(opisNode);
+        var fill = d3.scale.category10();
 
-    // Load data from spreadsheet
-    new Spreadsheet(function(spreadsheet) {
-        loadProjects(spreadsheet.projects);
-        loadCompanies(spreadsheet.companies);
-        loadInstitutions(spreadsheet.institutions);
-        loadContracts(spreadsheet.contracts);
+        svg = d3.select(containerId).append("svg")
+            .attr("width", '100%')
+            .attr("height", '100%')
+            .attr('viewBox','0 0 '+width+' '+height)
+            .style("background-color", "black");
 
-        restart();
-    });
+        var rect = svg.append("rect")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("fill", "black");
 
-    function loadInstitutions(institutions) {
-        //Add type to all nodes
-        $.map(institutions, function(val, i) {
-            val.type = TYPE_INSTITUTION;
-        });
+        force = d3.layout.force()
+            .size([width, height])
+            .linkDistance(30)
+            .charge(-5000)
+            .gravity(0.5)
+            .nodes(nodes)
+            .links(links)
+            .on("tick", onTick);
 
-        nodes.push.apply(nodes, institutions);
-    }
-
-    function loadContracts(contracts) {
-        //Add type to all nodes
-        $.map(contracts, function(val, i) {
-            val.type = TYPE_CONTRACT;
-        });
-
-        $.each(contracts, function(i, val) {
-            var contractIndex = nodes.push(val) - 1;
-
-            // Connect contracts and suppliers
-            var suppliers = $.grep(nodes, function(n) { return (n.type === TYPE_COMPANY) && (val.companies.indexOf(n.id) > -1) } );
-            $.each(suppliers, function(j, supplier) {
-                var supplierIndex = nodes.indexOf(supplier);
-                links.push({source: contractIndex, target: supplierIndex});
-            });
-
-            // Connect contracts and projects
-            var projects = $.grep(nodes, function(n) { return (n.type === TYPE_PROJECT) && (val.projectId == n.id) } );
-            $.each(projects, function(j, project) {
-                var projectIndex = nodes.indexOf(project);
-                links.push({source: contractIndex, target: projectIndex});
-            });
-
-            // Connect contracts and institutions
-            var institutions = $.grep(nodes, function(n) { return (n.type === TYPE_INSTITUTION) && (val.institutionId.indexOf(n.id) > -1) } );
-            $.each(institutions, function(j, institution) {
-                var institutionIndex = nodes.indexOf(institution);
-                links.push({source: contractIndex, target: institutionIndex});
-            });
+        // Load model from spreadsheet and restart graph
+        model = new Model();
+        model.loadFromSpreadsheet(function(model) {
+            console.log(model);
+            modelToGraph(model);
         });
     }
 
-    function loadProjects(projects) {
-        // Add type to all nodes
-        $.map(projects, function(val, i) {
-            val.type = TYPE_PROJECT;
-        });
-
-        nodes.push.apply(nodes, projects);
-
-        // Connect projects with the main OPIS node
-        $.each(projects, function(i, val) {
-            links.push({source: 0, target: i + 1});
-        });
-    }
-
-    function loadCompanies(companies) {
-        // Add type to all nodes
-        $.map(companies, function(val, i) {
-            val.type = TYPE_COMPANY;
-        });
-
-        nodes.push.apply(nodes, companies);
-    }
+    init();
 
     var node = svg.selectAll(".node"),
         link = svg.selectAll(".link");
+
+    function modelToGraph(model) {
+        nodes = [];
+        links = [];
+
+        var opisNode = {
+            id: model.TYPE_OPIS,
+            type: model.TYPE_OPIS
+        };
+        nodes.push(opisNode);
+
+        //projectsToGraph(model.projects);
+//        companiesToGraph(model.companies);
+//        institutionsToGraph(model.institutions);
+//        contractsToGraph(model.contracts);
+
+        restart();
+
+        function contractsToGraph(contracts) {
+            $.each(contracts, function(i, val) {
+                var contractIndex = nodes.push(val) - 1;
+
+                // Connect contracts and suppliers
+                var suppliers = $.grep(nodes, function(n) { return (n.type === model.TYPE_COMPANY) && (val.companies.indexOf(n.id) > -1) } );
+                $.each(suppliers, function(j, supplier) {
+                    var supplierIndex = nodes.indexOf(supplier);
+                    links.push({source: contractIndex, target: supplierIndex});
+                });
+
+                // Connect contracts and projects
+                var projects = $.grep(nodes, function(n) { return (n.type === model.TYPE_PROJECT) && (val.projectId == n.id) } );
+                $.each(projects, function(j, project) {
+                    var projectIndex = nodes.indexOf(project);
+                    links.push({source: contractIndex, target: projectIndex});
+                });
+
+                // Connect contracts and institutions
+                var institutions = $.grep(nodes, function(n) { return (n.type === model.TYPE_INSTITUTION) && (val.institutionId.indexOf(n.id) > -1) } );
+                $.each(institutions, function(j, institution) {
+                    var institutionIndex = nodes.indexOf(institution);
+                    links.push({source: contractIndex, target: institutionIndex});
+                });
+            });
+        }
+
+        function institutionsToGraph(institutions) {
+            nodes.push.apply(nodes, institutions);
+        }
+
+        function companiesToGraph(companies) {
+            nodes.push.apply(nodes, companies);
+        }
+
+        function projectsToGraph(projects) {
+            nodes.push.apply(nodes, projects);
+
+            // Connect projects with the main OPIS node
+            $.each(projects, function(i, val) {
+                links.push({source: 0, target: i + 1});
+            });
+        }
+    }
 
     function restart() {
         link = link.data(links)
@@ -131,8 +121,6 @@ $(function(){
             .call(force.drag);
 
         var circle = node.append("circle");
-//            .on("mouseover", nodeMouseOver)
-//            .on("mouseout", nodeMouseOut);
 
         node.append("text")
             .attr("dx", "-35")
@@ -149,23 +137,23 @@ $(function(){
     function nodeClass(n) {
         var specific = "";
         switch (n.type) {
-            case TYPE_OPIS:
+            case model.TYPE_OPIS:
                 specific = "node-opis";
                 break;
 
-            case TYPE_PROJECT:
+            case model.TYPE_PROJECT:
                 specific = "node-project";
                 break;
 
-            case TYPE_COMPANY:
+            case model.TYPE_COMPANY:
                 specific = "node-company";
                 break;
 
-            case TYPE_CONTRACT:
+            case model.TYPE_CONTRACT:
                 specific = "node-contract";
                 break;
 
-            case TYPE_INSTITUTION:
+            case model.TYPE_INSTITUTION:
                 specific = "node-institution";
                 break;
         }
@@ -175,7 +163,7 @@ $(function(){
 
     function nodeDisplayStyle(n) {
         switch (n.type) {
-            case TYPE_OPIS:
+            case model.TYPE_OPIS:
                 return "block";
         }
 
@@ -184,20 +172,20 @@ $(function(){
 
     function nodeMouseOut(n) {
         switch (n.type) {
-            case TYPE_PROJECT:
-            case TYPE_COMPANY:
-            case TYPE_CONTRACT:
-            case TYPE_INSTITUTION:
+            case model.TYPE_PROJECT:
+            case model.TYPE_COMPANY:
+            case model.TYPE_CONTRACT:
+            case model.TYPE_INSTITUTION:
                 d3.select(this.parentNode).select("text").style({display: "none"});
         }
     }
 
     function nodeMouseOver(n) {
         switch (n.type) {
-            case TYPE_PROJECT:
-            case TYPE_COMPANY:
-            case TYPE_CONTRACT:
-            case TYPE_INSTITUTION:
+            case model.TYPE_PROJECT:
+            case model.TYPE_COMPANY:
+            case model.TYPE_CONTRACT:
+            case model.TYPE_INSTITUTION:
                 d3.select(this.parentNode).select("text").style({display: "block"});
         }
     }
@@ -210,15 +198,15 @@ $(function(){
         });
 
         switch (n.type) {
-            case TYPE_OPIS:
+            case model.TYPE_OPIS:
                 return "OPIS";
-            case TYPE_PROJECT:
+            case model.TYPE_PROJECT:
                 return n.name;
-            case TYPE_COMPANY:
+            case model.TYPE_COMPANY:
                 return n.name;
-            case TYPE_CONTRACT:
+            case model.TYPE_CONTRACT:
                 return formatter.format(n.priceEur);
-            case TYPE_INSTITUTION:
+            case model.TYPE_INSTITUTION:
                 return n.name;
         }
 
@@ -231,6 +219,13 @@ $(function(){
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; });
 
-        node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        node.attr("transform", function(d) {
+            console.log(d);
+            return "translate(" + d.x + "," + d.y + ")";
+        });
     }
+}
+
+$(function(){
+    new Graph("#vesmir-container");
 });
