@@ -32,3 +32,37 @@ text {
 .link {
     stroke: #999;
 }
+
+.node circle {
+    r: 30;
+}
+
+.node-project circle {
+    fill: #9467bd;
+}
+
+.node-company circle {
+    fill: #d62728;
+}
+
+.node-contract circle {
+    fill: #1f77b4;
+}
+
+.node-institution circle {
+    fill: #2ca02c;
+}
+
+.node-opis circle {
+    fill: #ff7f0e;
+    r: 40;
+}
+
+.node-opis {
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.node-opis text {
+    fill: black;
+}

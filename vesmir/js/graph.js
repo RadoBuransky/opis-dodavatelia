@@ -125,19 +125,17 @@ $(function(){
 
         node = node.data(nodes)
             .enter().append("g")
-            .attr("class", "node")
+            .attr("class", nodeClass)
             .attr("x", 0)
             .attr("y", 0)
             .call(force.drag);
 
         var circle = node.append("circle")
-            .attr("r", nodeRAttr)
-            .attr("fill", nodeFillAttr)
             .on("mouseover", nodeMouseOver)
             .on("mouseout", nodeMouseOut);
 
         node.append("text")
-            .attr("dx", 20)
+            .attr("dx", "-35")
             .attr("dy", ".35em")
             .style("display", nodeDisplayStyle)
             .text(nodeText);
@@ -146,6 +144,33 @@ $(function(){
         link = svg.selectAll(".link");
 
         force.start();
+    }
+
+    function nodeClass(n) {
+        var specific = "";
+        switch (n.type) {
+            case TYPE_OPIS:
+                specific = "node-opis";
+                break;
+
+            case TYPE_PROJECT:
+                specific = "node-project";
+                break;
+
+            case TYPE_COMPANY:
+                specific = "node-company";
+                break;
+
+            case TYPE_CONTRACT:
+                specific = "node-contract";
+                break;
+
+            case TYPE_INSTITUTION:
+                specific = "node-institution";
+                break;
+        }
+
+        return "node " + specific;
     }
 
     function nodeDisplayStyle(n) {
@@ -198,19 +223,6 @@ $(function(){
         }
 
         return "";
-    }
-
-    function nodeRAttr(n) {
-        switch (n.type) {
-            case TYPE_OPIS:
-                return 40;
-        }
-
-        return 20;
-    }
-
-    function nodeFillAttr(n, i) {
-        return fill(n.type);
     }
 
     function onTick() {
