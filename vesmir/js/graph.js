@@ -1,10 +1,11 @@
 function Graph(containerId) {
     var nodes = [],
+        node = [],
         links = [],
+        link = [],
         svg = {},
         force = {}
         model = {};
-
 
     function init() {
         var $container = $(containerId),
@@ -36,15 +37,11 @@ function Graph(containerId) {
         // Load model from spreadsheet and restart graph
         model = new Model();
         model.loadFromSpreadsheet(function(model) {
-            console.log(model);
             modelToGraph(model);
         });
     }
 
     init();
-
-    var node = svg.selectAll(".node"),
-        link = svg.selectAll(".link");
 
     function modelToGraph(model) {
         nodes = [];
@@ -60,6 +57,9 @@ function Graph(containerId) {
 //        companiesToGraph(model.companies);
 //        institutionsToGraph(model.institutions);
 //        contractsToGraph(model.contracts);
+
+        node = svg.selectAll(".node");
+        link = svg.selectAll(".link");
 
         restart();
 
@@ -119,6 +119,8 @@ function Graph(containerId) {
             .attr("x", 0)
             .attr("y", 0)
             .call(force.drag);
+
+        console.log(nodes);
 
         var circle = node.append("circle");
 
@@ -220,7 +222,6 @@ function Graph(containerId) {
             .attr("y2", function(d) { return d.target.y; });
 
         node.attr("transform", function(d) {
-            console.log(d);
             return "translate(" + d.x + "," + d.y + ")";
         });
     }
