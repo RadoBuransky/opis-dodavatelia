@@ -55,6 +55,7 @@ function Graph(containerId) {
         companiesToGraph(model.companies);
         institutionsToGraph(model.institutions);
         contractsToGraph(model.contracts);
+        tendersToGraph(model.tenders);
 
         // Define adjacent function for all nodes
         $.each(nodes, function(i, n) {
@@ -81,30 +82,52 @@ function Graph(containerId) {
 
         restart();
 
+        function tendersToGraph(tenders) {
+            $.each(tenders, function(i, tender) {
+                var tenderIndex = nodes.push(tender) - 1;
+
+                connectToProjects(tenderIndex, tender.projectId);
+                connectToCompanies(tenderIndex, tender.winners);
+                connectToInstitution(tenderIndex, tender.institutionId);
+            });
+        }
+
+        function connectToInstitution(index, institutionId) {
+            var institutions = $.grep(nodes, function(n) { return (n.type === model.TYPE_INSTITUTION) && (institutionId.indexOf(n.id) > -1) } );
+            $.each(institutions, function(j, institution) {
+                var institutionIndex = nodes.indexOf(institution);
+                links.push({source: index, target: institutionIndex});
+            });
+        }
+
+        function connectToProjects(index, projectId) {
+            var projects = $.grep(nodes, function(n) { return (n.type === model.TYPE_PROJECT) && (projectId == n.id) } );
+            $.each(projects, function(j, project) {
+                var projectIndex = nodes.indexOf(project);
+                links.push({source: index, target: projectIndex});
+            });
+        }
+
+        function connectToCompanies(index, companyIds) {
+            var suppliers = $.grep(nodes, function(n) { return (n.type === model.TYPE_COMPANY) && (companyIds.indexOf(n.id) > -1) } );
+            $.each(suppliers, function(j, supplier) {
+                var supplierIndex = nodes.indexOf(supplier);
+                links.push({source: index, target: supplierIndex});
+            });
+        }
+
         function contractsToGraph(contracts) {
             $.each(contracts, function(i, val) {
                 var contractIndex = nodes.push(val) - 1;
 
                 // Connect contracts and suppliers
-                var suppliers = $.grep(nodes, function(n) { return (n.type === model.TYPE_COMPANY) && (val.companies.indexOf(n.id) > -1) } );
-                $.each(suppliers, function(j, supplier) {
-                    var supplierIndex = nodes.indexOf(supplier);
-                    links.push({source: contractIndex, target: supplierIndex});
-                });
+                connectToCompanies(contractIndex, val.companies);
 
                 // Connect contracts and projects
-                var projects = $.grep(nodes, function(n) { return (n.type === model.TYPE_PROJECT) && (val.projectId == n.id) } );
-                $.each(projects, function(j, project) {
-                    var projectIndex = nodes.indexOf(project);
-                    links.push({source: contractIndex, target: projectIndex});
-                });
+                connectToProjects(contractIndex, val.projectId);
 
                 // Connect contracts and institutions
-                var institutions = $.grep(nodes, function(n) { return (n.type === model.TYPE_INSTITUTION) && (val.institutionId.indexOf(n.id) > -1) } );
-                $.each(institutions, function(j, institution) {
-                    var institutionIndex = nodes.indexOf(institution);
-                    links.push({source: contractIndex, target: institutionIndex});
-                });
+                connectToInstitution(contractIndex, val.institutionId);
             });
         }
 
@@ -139,8 +162,8 @@ function Graph(containerId) {
             .attr("id", nodeId)
             .call(force.drag)
             .on("click", function(node) {
-                view.selectNode(node);
                 modelController.showInfo(node, model);
+                view.selectNode(node);
             });
 
         var circle = node.append("circle")
@@ -183,6 +206,10 @@ function Graph(containerId) {
             case model.TYPE_INSTITUTION:
                 specific = "node-institution";
                 break;
+
+            case model.TYPE_TENDER:
+                specific = "node-tender";
+                break;
         }
 
         return "node " + specific;
@@ -206,6 +233,8 @@ function Graph(containerId) {
                 return formatter.format(n.priceEur);
             case model.TYPE_INSTITUTION:
                 return n.name;
+            case model.TYPE_TENDER:
+                return formatter.format(n.finalPriceEur);
         }
 
         return "";

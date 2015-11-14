@@ -3,7 +3,7 @@ function Spreadsheet(onLoaded) {
     var SPREADSHEET_KEY = "1TAVF5meqnFLqwNlttUj1cLEP4WmLzpO_DWyYCWudctM";
 
     function loadSheets(spreadsheet, documentKey) {
-        var SHEET_COUNT = 4;
+        var SHEET_COUNT = 5;
         var loadedSheetCount = 0;
         for (i = 1; i <= SHEET_COUNT; i++) {
             loadSheet(spreadsheet, documentKey, i).then(function() {
@@ -35,6 +35,26 @@ function Spreadsheet(onLoaded) {
             delete c.company3Id;
             delete c.company4Id;
             delete c.company5Id;
+        });
+
+        $.each(spreadsheet.tenders, function(i, c) {
+            c.winners = [];
+            if (c.winner1Id != null)
+                c.winners.push(c.winner1Id);
+            if (c.winner2Id != null)
+                c.winners.push(c.winner2Id);
+            if (c.winner3Id != null)
+                c.winners.push(c.winner3Id);
+            if (c.winner4Id != null)
+                c.winners.push(c.winner4Id);
+            if (c.winner5Id != null)
+                c.winners.push(c.winner5Id);
+
+            delete c.winner1Id;
+            delete c.winner2Id;
+            delete c.winner3Id;
+            delete c.winner4Id;
+            delete c.winner5Id;
         });
     }
 

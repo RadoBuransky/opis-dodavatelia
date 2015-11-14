@@ -7,19 +7,29 @@ ModelController.prototype.showInfo = function(node, model) {
     $("#info-" + node.type).show();
 
     switch (node.type) {
-        case Model.prototype.TYPE_PROJECT:
+        case model.TYPE_PROJECT:
             ModelController.prototype.projectToView(node);
             break;
-        case Model.prototype.TYPE_COMPANY:
+        case model.TYPE_COMPANY:
             ModelController.prototype.companyToView(node);
             break;
-        case Model.prototype.TYPE_CONTRACT:
+        case model.TYPE_CONTRACT:
             ModelController.prototype.contractToView(node, model);
             break;
-        case Model.prototype.TYPE_INSTITUTION:
+        case model.TYPE_INSTITUTION:
             ModelController.prototype.institutionToView(node);
             break;
+        case model.TYPE_TENDER:
+            ModelController.prototype.tenderToView(node);
+            break;
     }
+}
+
+ModelController.prototype.tenderToView = function(tender) {
+    var parent = $("#info-tender");
+    $("#info-tender-name h2").text(tender.subject);
+    $("#info-tender-maxPrice", parent).text(ModelController.prototype.priceEurToView(tender.maxPriceEur));
+    $("#info-tender-winnerPrice", parent).text(ModelController.prototype.priceEurToView(tender.finalPriceEur));
 }
 
 ModelController.prototype.institutionToView = function(institution) {
@@ -27,6 +37,7 @@ ModelController.prototype.institutionToView = function(institution) {
 }
 
 ModelController.prototype.companyToView = function(company) {
+                console.log(company);
     $("#info-company-name h2").text(company.name);
 }
 

@@ -62,6 +62,10 @@ html, body {
     background-color: #2ca02c;
 }
 
+#info-tender-name {
+    background-color: #7f7f7f;
+}
+
 text {
     fill: white;
 }
@@ -88,6 +92,10 @@ text {
 
 .node-institution circle {
     fill: #2ca02c;
+}
+
+.node-tender circle {
+    fill: #7f7f7f;
 }
 
 .node-opis circle {

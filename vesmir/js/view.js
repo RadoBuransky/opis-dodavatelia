@@ -5,12 +5,15 @@ function View() {
     handleShowCheckboxClick("contract");
     handleShowCheckboxClick("company");
     handleShowCheckboxClick("institution");
+    handleShowCheckboxClick("tender");
 
     $("#hide-all").click(function() {
         $("#show-project").attr("checked", false);
         $("#show-contract").attr("checked", false);
         $("#show-company").attr("checked", false);
         $("#show-institution").attr("checked", false);
+        $("#show-tender").attr("checked", false);
+        selected = null;
 
         updateView(this);
     });
@@ -31,6 +34,7 @@ function View() {
         showHideText("contract");
         showHideText("company");
         showHideText("institution");
+        showHideText("tender");
 
         showSelected();
 

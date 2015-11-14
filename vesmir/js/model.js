@@ -4,19 +4,16 @@ function Model() {
     this.TYPE_COMPANY = "company";
     this.TYPE_CONTRACT = "contract";
     this.TYPE_INSTITUTION = "institution";
+    this.TYPE_TENDER = "tender";
 
     this.projects = [];
     this.contracts = [];
     this.institutions = [];
     this.companies = [];
+    this.tenders = [];
 }
 
 Model.prototype = {
-    TYPE_OPIS: "opis",
-    TYPE_PROJECT: "project",
-    TYPE_COMPANY: "company",
-    TYPE_CONTRACT: "contract",
-    TYPE_INSTITUTION: "institution",
     loadFromSpreadsheet: function(onReady) {
         var model = this;
 
@@ -26,6 +23,7 @@ Model.prototype = {
             copyAndType(spreadsheet.companies, model.companies, model.TYPE_COMPANY);
             copyAndType(spreadsheet.institutions, model.institutions, model.TYPE_INSTITUTION);
             copyAndType(spreadsheet.contracts, model.contracts, model.TYPE_CONTRACT);
+            copyAndType(spreadsheet.tenders, model.tenders, model.TYPE_TENDER);
 
             onReady(model);
         });
