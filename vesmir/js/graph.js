@@ -3,7 +3,10 @@ function Graph(containerId) {
         node = [],
         links = [],
         link = [],
+        linkLabel = [],
+        linkLabels = [],
         svg = {},
+        rect = {},
         force = {},
         model = new Model(),
         modelController = new ModelController(),
@@ -29,10 +32,9 @@ function Graph(containerId) {
             .attr("width", '100%')
             .attr("height", '100%')
             .call(d3.behavior.zoom().on("zoom", rescale))
-            .on("dblclick.zoom", null)
-            .append('svg:g');
+            .on("dblclick.zoom", null);
 
-        var rect = svg.append("rect")
+        rect = svg.append("rect")
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("fill", "black");
@@ -96,14 +98,21 @@ function Graph(containerId) {
             };
         })
 
-        node = svg.selectAll(".node");
-        link = svg.selectAll(".link");
-
         restart();
 
         function subcontractorsToGraph(subcontractors) {
             $.each(subcontractors, function(i, subcontractor) {
                 var subcontractorIndex = findById(subcontractor.subcontractorId);
+                var companyIndex = findById(subcontractor.forCompanyId);
+
+                subcontractorLabel = {
+                    source: subcontractorIndex,
+                    target: companyIndex,
+                    label: ModelController.prototype.priceEurToView(subcontractor.priceEur)
+                };
+
+                linkLabels.push(subcontractorLabel);
+
                 connectToCompanies(subcontractorIndex, [subcontractor.forCompanyId] );
             });
         }
@@ -182,12 +191,29 @@ function Graph(containerId) {
         }
     }
 
+    function linkText(l) {
+        var found = $.grep(linkLabels, function(val) { return (val.source == l.source && val.target == l.target); });
+        if (found[0] == null)
+            return null;
+
+        return found[0].label;
+    }
+
     function restart() {
-        link = link.data(links)
-            .enter().append("line")
+        svg.selectAll(".link")
+            .data(links)
+            .enter()
+            .append("line")
             .attr("class", "link");
 
-        node = node.data(nodes)
+        svg.selectAll(".link-label").data(links)
+            .enter()
+            .append("text")
+            .text(linkText)
+            .attr("class", "link-label")
+            .attr("text-anchor", "middle");
+
+        node = svg.selectAll(".node").data(nodes)
             .enter().append("g")
             .attr("class", nodeClass)
             .attr("x", 0)
@@ -209,6 +235,7 @@ function Graph(containerId) {
 
         node = svg.selectAll(".node"),
         link = svg.selectAll(".link");
+        linkLabel = svg.selectAll(".link-label");
 
         force.start();
     }
@@ -249,12 +276,6 @@ function Graph(containerId) {
     }
 
     function nodeText(n) {
-        var formatter = new Intl.NumberFormat('sk-SK', {
-          style: 'currency',
-          currency: 'EUR',
-          minimumFractionDigits: 0,
-        });
-
         switch (n.type) {
             case model.TYPE_OPIS:
                 return "OPIS";
@@ -263,11 +284,11 @@ function Graph(containerId) {
             case model.TYPE_COMPANY:
                 return n.name;
             case model.TYPE_CONTRACT:
-                return formatter.format(n.priceEur);
+                return ModelController.prototype.priceEurToView(n.priceEur);
             case model.TYPE_INSTITUTION:
                 return n.name;
             case model.TYPE_TENDER:
-                return formatter.format(n.finalPriceEur);
+                return ModelController.prototype.priceEurToView(n.finalPriceEur);
         }
 
         return "";
@@ -278,6 +299,12 @@ function Graph(containerId) {
             .attr("y1", function(d) { return d.source.y; })
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; });
+
+        linkLabel
+            .attr("x", function(d) {
+                return (d.source.x + d.target.x)/2; })
+            .attr("y", function(d) {
+                return (d.source.y + d.target.y)/2; });
 
         node.attr("transform", function(d) {
             return "translate(" + d.x + "," + d.y + ")";
