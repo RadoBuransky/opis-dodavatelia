@@ -56,6 +56,7 @@ function Graph(containerId) {
         institutionsToGraph(model.institutions);
         contractsToGraph(model.contracts);
         tendersToGraph(model.tenders);
+        subcontractorsToGraph(model.subcontractors);
 
         // Define adjacent function for all nodes
         $.each(nodes, function(i, n) {
@@ -82,6 +83,13 @@ function Graph(containerId) {
 
         restart();
 
+        function subcontractorsToGraph(subcontractors) {
+            $.each(subcontractors, function(i, subcontractor) {
+                var subcontractorIndex = findById(subcontractor.subcontractorId);
+                connectToCompanies(subcontractorIndex, [subcontractor.forCompanyId] );
+            });
+        }
+
         function tendersToGraph(tenders) {
             $.each(tenders, function(i, tender) {
                 var tenderIndex = nodes.push(tender) - 1;
@@ -89,30 +97,6 @@ function Graph(containerId) {
                 connectToProjects(tenderIndex, tender.projectId);
                 connectToCompanies(tenderIndex, tender.winners);
                 connectToInstitution(tenderIndex, tender.institutionId);
-            });
-        }
-
-        function connectToInstitution(index, institutionId) {
-            var institutions = $.grep(nodes, function(n) { return (n.type === model.TYPE_INSTITUTION) && (institutionId.indexOf(n.id) > -1) } );
-            $.each(institutions, function(j, institution) {
-                var institutionIndex = nodes.indexOf(institution);
-                links.push({source: index, target: institutionIndex});
-            });
-        }
-
-        function connectToProjects(index, projectId) {
-            var projects = $.grep(nodes, function(n) { return (n.type === model.TYPE_PROJECT) && (projectId == n.id) } );
-            $.each(projects, function(j, project) {
-                var projectIndex = nodes.indexOf(project);
-                links.push({source: index, target: projectIndex});
-            });
-        }
-
-        function connectToCompanies(index, companyIds) {
-            var suppliers = $.grep(nodes, function(n) { return (n.type === model.TYPE_COMPANY) && (companyIds.indexOf(n.id) > -1) } );
-            $.each(suppliers, function(j, supplier) {
-                var supplierIndex = nodes.indexOf(supplier);
-                links.push({source: index, target: supplierIndex});
             });
         }
 
@@ -145,6 +129,37 @@ function Graph(containerId) {
             // Connect projects with the main OPIS node
             $.each(projects, function(i, val) {
                 links.push({source: 0, target: i + 1});
+            });
+        }
+
+        function findById(id) {
+            var result = $.grep(nodes, function(n) { return (n.id == id); });
+            if (result == null)
+                return -1;
+            return nodes.indexOf(result[0]);
+        }
+
+        function connectToInstitution(index, institutionId) {
+            var institutions = $.grep(nodes, function(n) { return (n.type === model.TYPE_INSTITUTION) && (institutionId.indexOf(n.id) > -1) } );
+            $.each(institutions, function(j, institution) {
+                var institutionIndex = nodes.indexOf(institution);
+                links.push({source: index, target: institutionIndex});
+            });
+        }
+
+        function connectToProjects(index, projectId) {
+            var projects = $.grep(nodes, function(n) { return (n.type === model.TYPE_PROJECT) && (projectId == n.id) } );
+            $.each(projects, function(j, project) {
+                var projectIndex = nodes.indexOf(project);
+                links.push({source: index, target: projectIndex});
+            });
+        }
+
+        function connectToCompanies(index, companyIds) {
+            var suppliers = $.grep(nodes, function(n) { return (n.type === model.TYPE_COMPANY) && (companyIds.indexOf(n.id) > -1) } );
+            $.each(suppliers, function(j, supplier) {
+                var supplierIndex = nodes.indexOf(supplier);
+                links.push({source: index, target: supplierIndex});
             });
         }
     }

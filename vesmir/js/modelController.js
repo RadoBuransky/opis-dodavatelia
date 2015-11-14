@@ -37,7 +37,6 @@ ModelController.prototype.institutionToView = function(institution) {
 }
 
 ModelController.prototype.companyToView = function(company) {
-                console.log(company);
     $("#info-company-name h2").text(company.name);
 }
 

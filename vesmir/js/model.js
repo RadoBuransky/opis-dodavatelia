@@ -5,12 +5,14 @@ function Model() {
     this.TYPE_CONTRACT = "contract";
     this.TYPE_INSTITUTION = "institution";
     this.TYPE_TENDER = "tender";
+    this.TYPE_SUBCONTRACTOR = "subcontractor";
 
     this.projects = [];
     this.contracts = [];
     this.institutions = [];
     this.companies = [];
     this.tenders = [];
+    this.subcontractors = [];
 }
 
 Model.prototype = {
@@ -24,6 +26,7 @@ Model.prototype = {
             copyAndType(spreadsheet.institutions, model.institutions, model.TYPE_INSTITUTION);
             copyAndType(spreadsheet.contracts, model.contracts, model.TYPE_CONTRACT);
             copyAndType(spreadsheet.tenders, model.tenders, model.TYPE_TENDER);
+            copyAndType(spreadsheet.subcontractors, model.subcontractors, model.TYPE_SUBCONTRACTOR);
 
             onReady(model);
         });

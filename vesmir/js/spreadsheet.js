@@ -3,7 +3,7 @@ function Spreadsheet(onLoaded) {
     var SPREADSHEET_KEY = "1TAVF5meqnFLqwNlttUj1cLEP4WmLzpO_DWyYCWudctM";
 
     function loadSheets(spreadsheet, documentKey) {
-        var SHEET_COUNT = 5;
+        var SHEET_COUNT = 6;
         var loadedSheetCount = 0;
         for (i = 1; i <= SHEET_COUNT; i++) {
             loadSheet(spreadsheet, documentKey, i).then(function() {
