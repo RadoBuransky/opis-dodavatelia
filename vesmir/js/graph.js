@@ -18,11 +18,19 @@ function Graph(containerId) {
 
         var fill = d3.scale.category10();
 
-        svg = d3.select(containerId).append("svg")
+        var outer = d3.select(containerId).append("svg")
             .attr("width", '100%')
             .attr("height", '100%')
             .attr('viewBox','0 0 '+width+' '+height)
-            .style("background-color", "black");
+            .style("background-color", "black")
+            .attr("pointer-events", "all");
+
+        svg = outer.append('svg:g')
+            .attr("width", '100%')
+            .attr("height", '100%')
+            .call(d3.behavior.zoom().on("zoom", rescale))
+            .on("dblclick.zoom", null)
+            .append('svg:g');
 
         var rect = svg.append("rect")
             .attr("width", "100%")
@@ -42,6 +50,16 @@ function Graph(containerId) {
         model.loadFromSpreadsheet(function(model) {
             modelToGraph(model);
         });
+    }
+
+    // rescale g
+    function rescale() {
+      trans=d3.event.translate;
+      scale=d3.event.scale;
+
+      svg.attr("transform",
+          "translate(" + trans + ")"
+          + " scale(" + scale + ")");
     }
 
     function modelToGraph(model) {
